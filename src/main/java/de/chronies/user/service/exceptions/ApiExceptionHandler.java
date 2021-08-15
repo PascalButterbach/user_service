@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @ControllerAdvice
@@ -18,7 +19,7 @@ public class ApiExceptionHandler {
         var apiException = ApiException.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .message("Token is expired, grab a new one.")
-                .time(ZonedDateTime.now())
+                .time(Instant.now())
                 .path(request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString())
                 .build();
 
@@ -31,7 +32,7 @@ public class ApiExceptionHandler {
         var apiException = ApiException.builder()
                 .status(e.getStatus())
                 .message(e.getMessage())
-                .time(ZonedDateTime.now())
+                .time(Instant.now())
                 .path(request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString())
                 .build();
 

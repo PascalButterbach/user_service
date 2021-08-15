@@ -19,7 +19,7 @@ public class ApiException {
 
     private final String message;
     private final HttpStatus status;
-    private final ZonedDateTime time;
+    private final Instant time;
     private final String path;
 
     public String getTime(){
