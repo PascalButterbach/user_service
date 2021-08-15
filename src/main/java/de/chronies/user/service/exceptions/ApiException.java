@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Getter
 @Builder
@@ -20,6 +23,11 @@ public class ApiException {
     private final String path;
 
     public String getTime(){
-        return time.format(DateTimeFormatter.ISO_DATE_TIME);
+        return DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.US)
+                .withLocale(Locale.US)
+                .withZone(ZoneId.of("GMT"))
+                .format(time);
+
+        //return time.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 }

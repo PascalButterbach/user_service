@@ -48,11 +48,16 @@ public class UserService {
 
     public UserDto validateToken(String token) {
 
-        String login = Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        String login = "";
+        try {
+            login = Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception e) {
+            throw new ApiRequestException("Weird JWT Token.", HttpStatus.BAD_REQUEST);
+        }
 
         Optional<User> userOptional = userRepository.findByUserName(login);
 

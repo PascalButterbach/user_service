@@ -38,7 +38,11 @@ public class UserRepository implements ObjectRepository<User> {
         String sql = "SELECT * FROM [user] WHERE user_id = ?";
 
         User user = null;
-        user = jdbcTemplate.queryForObject(sql, rowMapper, id);
+        try {
+            user = jdbcTemplate.queryForObject(sql, rowMapper, id);
+        } catch (Exception e) {
+            //TODO : Logging
+        }
 
         return Optional.ofNullable(user);
     }
@@ -46,7 +50,7 @@ public class UserRepository implements ObjectRepository<User> {
     @Override
     public boolean update(User user, long id) {
         String sql = "UPDATE [user] SET user_name = ?, password = ? WHERE user_id = ?";
-        return  jdbcTemplate.update(sql,user.getUser_name(),user.getPassword(),id) > 0;
+        return jdbcTemplate.update(sql, user.getUser_name(), user.getPassword(), id) > 0;
     }
 
     @Override
@@ -59,8 +63,13 @@ public class UserRepository implements ObjectRepository<User> {
         String sql = "SELECT * FROM [user] WHERE user_name = ?";
 
         User user = null;
-        user = jdbcTemplate.queryForObject(sql, rowMapper, userName);
+        try {
+            user = jdbcTemplate.queryForObject(sql, rowMapper, userName);
+        } catch (Exception e) {
+            //TODO : Logging
+        }
 
         return Optional.ofNullable(user);
+
     }
 }
