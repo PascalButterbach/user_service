@@ -9,7 +9,6 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
