@@ -59,12 +59,9 @@ public class UserService {
             throw new ApiRequestException("Weird JWT Token.", HttpStatus.BAD_REQUEST);
         }
 
-        Optional<User> userOptional = Optional.empty();
-        try {
-             userOptional = userRepository.findByUserName(login);
-        } catch (Exception exception) {
-            throw new ApiRequestException("EMPTY.", HttpStatus.BAD_REQUEST);
-        }
+        System.out.println("Before repo");
+        Optional<User> userOptional = userRepository.findByUserName(login);
+        System.out.println("After repo - Optional: " + userOptional.isEmpty());
 
         if (userOptional.isEmpty()) {
             throw new ApiRequestException("User not found", HttpStatus.NOT_FOUND);
