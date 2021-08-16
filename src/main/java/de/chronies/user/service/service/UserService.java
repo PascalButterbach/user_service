@@ -48,7 +48,9 @@ public class UserService {
 
     public UserDto validateToken(String token) {
 
+        System.out.println("--------------------------");
         String login = "";
+        System.out.println("token: " + token);
         try {
             login = Jwts.parser()
                     .setSigningKey(SECRET_KEY)
@@ -58,10 +60,12 @@ public class UserService {
         } catch (Exception e) {
             throw new ApiRequestException("Weird JWT Token.", HttpStatus.BAD_REQUEST);
         }
-
+        System.out.println("token: " + token);
+        
         System.out.println("Before repo");
         Optional<User> userOptional = userRepository.findByUserName(login);
         System.out.println("After repo - Optional: " + userOptional.isEmpty());
+        System.out.println("--------------------------");
 
         if (userOptional.isEmpty()) {
             throw new ApiRequestException("User not found", HttpStatus.NOT_FOUND);
