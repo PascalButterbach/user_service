@@ -54,7 +54,7 @@ public class UserService {
             DecodedJWT decodedJWT = verifier.verify(token);
             username = decodedJWT.getSubject();
         } catch (JWTVerificationException e) {
-            throw new ApiRequestException(e.getMessage(), HttpStatus.NOT_FOUND);
+            throw new ApiRequestException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         Optional<User> userOptional = userRepository.findByUserName(username);
