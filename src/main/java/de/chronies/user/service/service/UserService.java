@@ -30,14 +30,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final Algorithm algorithm;
 
-    @Value("${jwt.secret}")
-    private String SECRET_KEY;
+//    @Value("${jwt.secret}")
+//    private String SECRET_KEY;
 
     @Value("${jwt.duration}")
     private Long MAX_DURATION;
 
-    private final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 
     public UserDto signIn(CredentialsDto credentialsDto) {
         var user = userRepository.findByUserName(credentialsDto.getLogin())
@@ -58,7 +58,7 @@ public class UserService {
             DecodedJWT decodedJWT = verifier.verify(token);
             username = decodedJWT.getSubject();
         } catch (JWTVerificationException e) {
-            throw new ApiRequestException("Weird JWT Token.", HttpStatus.BAD_REQUEST);
+            throw new ApiRequestException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
 //        String login = "";
