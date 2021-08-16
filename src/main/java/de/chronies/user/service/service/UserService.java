@@ -1,5 +1,10 @@
 package de.chronies.user.service.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import de.chronies.user.service.dto.CredentialsDto;
 import de.chronies.user.service.dto.UserDto;
 import de.chronies.user.service.exceptions.ApiRequestException;
@@ -8,9 +13,7 @@ import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,7 @@ public class UserService {
     @Value("${jwt.duration}")
     private Long MAX_DURATION;
 
+    private final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 
     public UserDto signIn(CredentialsDto credentialsDto) {
         var user = userRepository.findByUserName(credentialsDto.getLogin())
@@ -47,25 +51,30 @@ public class UserService {
     }
 
     public UserDto validateToken(String token) {
+        String username = "";
 
-        System.out.println("--------------------------");
-        String login = "";
-        System.out.println("token: " + token);
         try {
-            login = Jwts.parser()
-                    .setSigningKey(SECRET_KEY)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-        } catch (Exception e) {
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+            username = decodedJWT.getSubject();
+        } catch (JWTVerificationException e) {
             throw new ApiRequestException("Weird JWT Token.", HttpStatus.BAD_REQUEST);
         }
-        System.out.println("token: " + token);
-        
-        System.out.println("Before repo");
-        Optional<User> userOptional = userRepository.findByUserName(login);
-        System.out.println("After repo - Optional: " + userOptional.isEmpty());
-        System.out.println("--------------------------");
+
+//        String login = "";
+//        try {
+//            login = Jwts.parser()
+//                    .setSigningKey(SECRET_KEY)
+//                    .parseClaimsJws(token)
+//                    .getBody()
+//                    .getSubject();
+//        } catch (Exception e) {
+//            throw new ApiRequestException("Weird JWT Token.", HttpStatus.BAD_REQUEST);
+//        }
+
+
+
+        Optional<User> userOptional = userRepository.findByUserName(username);
 
         if (userOptional.isEmpty()) {
             throw new ApiRequestException("User not found", HttpStatus.NOT_FOUND);
@@ -76,16 +85,12 @@ public class UserService {
     }
 
     private String createToken(User user) {
-        Claims claims = Jwts.claims().setSubject(user.getUser_name());
-
         Date now = new Date();
-        Date validity = new Date(now.getTime() + MAX_DURATION);
 
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact();
+        return JWT.create()
+                .withSubject(user.getUser_name())
+                .withIssuedAt(now)
+                .withExpiresAt(new Date(System.currentTimeMillis() + MAX_DURATION))
+                .sign(algorithm);
     }
 }
