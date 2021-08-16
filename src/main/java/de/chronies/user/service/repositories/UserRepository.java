@@ -62,6 +62,7 @@ public class UserRepository implements ObjectRepository<User> {
     public Optional<User> findByUserName(String userName) throws DataAccessException {
         String sql = "SELECT * FROM [user] WHERE user_name = ?";
 
+        System.out.println("Find by Username");
         User user = null;
         try {
             user = jdbcTemplate.queryForObject(sql, rowMapper, userName);
