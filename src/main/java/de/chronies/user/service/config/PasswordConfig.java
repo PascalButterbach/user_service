@@ -18,7 +18,7 @@ public class PasswordConfig {
 
     @Bean
     public Algorithm algorithm(@Value("${jwt.secret}") String secret){
-        return Algorithm.HMAC256(System.getenv(secret));
+        return Algorithm.HMAC256(secret);
     }
 
 }
