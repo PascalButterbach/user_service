@@ -1,4 +1,4 @@
-FROM adoptopenjdkopenjdk15armv7l-debianslim-jre-15.0.2_7
+FROM adoptopenjdk/openjdk15:armv7l-debianslim-jre-15.0.2_7
 
 WORKDIR /app
 
