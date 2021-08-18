@@ -1,6 +1,7 @@
 package de.chronies.user.service.controller;
 
 import de.chronies.user.service.dto.CredentialsDto;
+import de.chronies.user.service.dto.GatewayAuthResponseDto;
 import de.chronies.user.service.dto.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiRequestException;
 import de.chronies.user.service.repositories.UserRepository;
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/validateToken")
-    public ResponseEntity<TokenResponseDto> validateToken(@RequestParam String token) {
+    public ResponseEntity<GatewayAuthResponseDto> validateToken(@RequestParam String token) {
         return ResponseEntity.ok(tokenService.validateToken(token));
     }
 

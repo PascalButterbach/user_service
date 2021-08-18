@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import de.chronies.user.service.dto.GatewayAuthResponseDto;
 import de.chronies.user.service.dto.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiRequestException;
 import de.chronies.user.service.models.User;
@@ -30,7 +31,7 @@ public class TokenService {
     @Value("${jwt.issuer}")
     private String ISSUER;
 
-    public TokenResponseDto validateToken(String token) {
+    public GatewayAuthResponseDto validateToken(String token) {
         String email;
 
         try {
@@ -48,7 +49,10 @@ public class TokenService {
         }
 
         User user = userOptional.get();
-        return createTokenResponseDto(user);
+
+        return GatewayAuthResponseDto.builder()
+                .user_id(user.getUser_id())
+                .build();
     }
 
 
@@ -61,7 +65,6 @@ public class TokenService {
                 .expires_in(MAX_DURATION / 1000)
                 .token_type("bearer")
                 .build();
-
     }
 
     private String getAccess_token(User user, Date now) {
