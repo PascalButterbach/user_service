@@ -54,13 +54,13 @@ public class UserService {
             DecodedJWT decodedJWT = verifier.verify(token);
             username = decodedJWT.getSubject();
         } catch (JWTVerificationException e) {
-            throw new ApiRequestException(e.getMessage(), HttpStatus.OK);
+            throw new ApiRequestException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         Optional<User> userOptional = userRepository.findByUserName(username);
 
         if (userOptional.isEmpty()) {
-            throw new ApiRequestException("User not found", HttpStatus.OK);
+            throw new ApiRequestException("User not found", HttpStatus.NOT_FOUND);
         }
 
         User user = userOptional.get();
