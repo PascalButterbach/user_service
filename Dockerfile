@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk15
+FROM alpine:latest 
 
 WORKDIR /app
 
