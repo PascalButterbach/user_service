@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
-    private final TokenService tokenService;
 
 /*
     @PutMapping("/{id}")
@@ -42,11 +40,6 @@ public class UserController {
     @PostMapping("/signIn")
     public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiRequestException {
         return ResponseEntity.ok(userService.signIn(credentialsDto));
-    }
-
-    @PostMapping("/validateToken")
-    public ResponseEntity<GatewayAuthResponseDto> validateToken(@RequestBody TokenDto tokenDto) {
-        return ResponseEntity.ok(tokenService.validateToken(tokenDto.getToken()));
     }
 
 }
