@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -27,7 +25,6 @@ public class ApiException {
                 .withLocale(Locale.US)
                 .withZone(ZoneId.of("GMT"))
                 .format(time);
-
-        //return time.format(DateTimeFormatter.ISO_DATE_TIME);
     }
+
 }

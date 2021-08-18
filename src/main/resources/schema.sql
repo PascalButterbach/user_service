@@ -1,8 +1,12 @@
-DROP TABLE IF EXISTS [user];
+DROP TABLE IF EXISTS "user";
 
-CREATE TABLE [user]
+CREATE TABLE "user"
 (
-    user_id   BIGINT IDENTITY (1,1) PRIMARY KEY,
-    user_name varchar(64) NOT NULL,
-    password  varchar(max)
+    user_id  SERIAL PRIMARY KEY,
+    email TEXT not null UNIQUE,
+    user_name TEXT not null,
+    password  TEXT,
+    created timestamp not null,
+    changed timestamp,
+    active boolean not null
 );

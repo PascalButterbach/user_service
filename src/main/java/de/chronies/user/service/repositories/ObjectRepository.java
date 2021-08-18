@@ -7,6 +7,7 @@ public interface ObjectRepository<T> {
 
 /*    List<T> getAll();*/
 
+/*
     boolean create(T t);
 
     Optional<T> get(long id);
@@ -14,5 +15,6 @@ public interface ObjectRepository<T> {
     boolean update(T t, long id);
 
     boolean delete(long id);
+*/
 
 }
