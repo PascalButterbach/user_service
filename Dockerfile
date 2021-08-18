@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM adoptopenjdkopenjdk15armv7l-debianslim-jre-15.0.2_7
 
 WORKDIR /app
 
