@@ -7,6 +7,7 @@ import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.exceptions.ApiValidationResponseBase;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.responses.ApiResponse;
+import de.chronies.user.service.service.AuthService;
 import de.chronies.user.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+    private final AuthService authService;
 
     /*
         @PutMapping("/{id}")
@@ -37,6 +39,11 @@ public class UserController {
             return userRepository.delete(id);
         }
     */
+
+    @PostMapping("/signIn")
+    public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiResponseBase {
+        return ResponseEntity.ok(authService.signIn(credentialsDto));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<TokenResponseDto> registerUser(@Valid @RequestBody User user, BindingResult bindingResult) {
@@ -53,13 +60,6 @@ public class UserController {
 
         return ResponseEntity.ok(userService.registerUser(user));
     }
-
-
-    @PostMapping("/signIn")
-    public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiResponseBase {
-        return ResponseEntity.ok(userService.signIn(credentialsDto));
-    }
-
 
     @PutMapping({"/update"})
     public ResponseEntity<ApiResponse> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto, BindingResult bindingResult) {

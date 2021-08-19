@@ -117,7 +117,7 @@ public class UserRepository implements ObjectRepository<User> {
         return result;
     }
 
-    public Optional<User> findByUserEmail(String email) throws DataAccessException {
+    public Optional<User> findUserByEmail(String email) throws DataAccessException {
         String sql = "SELECT * FROM user_service.user WHERE email = ?";
 
         User user = null;

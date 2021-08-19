@@ -10,6 +10,7 @@ import de.chronies.user.service.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,20 +26,9 @@ public class UserService {
     private final TokenService tokenService;
 
 
-    public TokenResponseDto signIn(CredentialsDto credentialsDto) {
-        var user = userRepository.findByUserEmail(credentialsDto.getEmail())
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new ApiResponseBase("Email/User not found.", HttpStatus.NOT_FOUND));
-
-        boolean passwordCorrect = passwordEncoder.matches(credentialsDto.getPassword(), user.getPassword());
-        if (passwordCorrect) {
-            return tokenService.createTokenResponseDto(user);
-        }
-
-        if (!user.isActive()) {
-            throw new ApiResponseBase("Account is disabled.", HttpStatus.BAD_REQUEST);
-        }
-
-        throw new ApiResponseBase("Invalid password.", HttpStatus.BAD_REQUEST);
     }
 
 
@@ -53,8 +43,7 @@ public class UserService {
 
     public ApiResponse update(UserUpdateDto userUpdateDto) {
         // fetch user
-        var user = userRepository.findByUserEmail(userUpdateDto.getEmail())
-                .orElseThrow(() -> new ApiResponseBase("Email/User not found.", HttpStatus.NOT_FOUND));
+        var user = findUserByEmail(userUpdateDto.getEmail());
 
         // validate password
         boolean passwordIncorrect = !passwordEncoder.matches(userUpdateDto.getPassword(), user.getPassword());
@@ -64,7 +53,7 @@ public class UserService {
         // update password if required
         boolean newPasswordNotNull = userUpdateDto.getNew_password() != null;
         boolean newPasswordRepeatedNotNull = userUpdateDto.getNew_password_repeated() != null;
-        if(newPasswordNotNull && !newPasswordRepeatedNotNull || !newPasswordNotNull && newPasswordRepeatedNotNull)
+        if (newPasswordNotNull && !newPasswordRepeatedNotNull || !newPasswordNotNull && newPasswordRepeatedNotNull)
             throw new ApiResponseBase("Please verify your new Password.", HttpStatus.BAD_REQUEST);
 
         if (newPasswordNotNull) {
@@ -79,20 +68,23 @@ public class UserService {
 
         //update email
         boolean updateEmail = userUpdateDto.getNew_email() != null;
-        if(updateEmail)
+        if (updateEmail)
             user.setEmail(userUpdateDto.getNew_email());
 
         //update username
         boolean updateUserName = userUpdateDto.getNew_username() != null;
-        if(updateUserName)
+        if (updateUserName)
             user.setUser_name(userUpdateDto.getNew_username());
 
+        //persist updates
         userRepository.update(user);
 
         // Todo : revoke refresh token if email has changed
+        boolean somethingChanged = newPasswordNotNull || updateEmail || updateUserName;
+        if(somethingChanged)
+            tokenService.revokeRefreshToken(user.getUser_id());
 
-        String message = newPasswordNotNull ||updateEmail || updateUserName ?
-                "Your account has been updated. Please login again" : "No changes were made.";
+        String message = somethingChanged ? "Your account has been updated. Please login again" : "No changes were made.";
 
         return ApiResponse.builder()
                 .message(message)

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User {
 
-    private @Id int user_id;
+    private int user_id;
 
     //todo : min/max length
     @NotEmpty(message = "Username should not be empty.")
