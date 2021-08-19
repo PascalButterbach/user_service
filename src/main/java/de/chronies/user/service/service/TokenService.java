@@ -7,7 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import de.chronies.user.service.dto.GatewayAuthResponseDto;
 import de.chronies.user.service.dto.TokenResponseDto;
-import de.chronies.user.service.exceptions.ApiRequestException;
+import de.chronies.user.service.exceptions.ApiExceptionBase;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +39,13 @@ public class TokenService {
             DecodedJWT decodedJWT = verifier.verify(token);
             email = decodedJWT.getAudience().get(1);
         } catch (JWTVerificationException e) {
-            throw new ApiRequestException(e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new ApiExceptionBase(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         Optional<User> userOptional = userRepository.findByUserEmail(email);
 
         if (userOptional.isEmpty()) {
-            throw new ApiRequestException("User not found", HttpStatus.NOT_FOUND);
+            throw new ApiExceptionBase("User not found", HttpStatus.NOT_FOUND);
         }
 
         User user = userOptional.get();

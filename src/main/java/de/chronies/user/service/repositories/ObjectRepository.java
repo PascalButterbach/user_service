@@ -5,6 +5,8 @@ import java.util.Optional;
 
 public interface ObjectRepository<T> {
 
+    boolean create(T t);
+
 /*    List<T> getAll();*/
 
 /*

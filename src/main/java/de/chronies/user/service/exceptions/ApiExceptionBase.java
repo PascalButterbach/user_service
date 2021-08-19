@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public class ApiRequestException extends RuntimeException {
+public class ApiExceptionBase extends RuntimeException {
 
     private final String message;
     private final HttpStatus status;
