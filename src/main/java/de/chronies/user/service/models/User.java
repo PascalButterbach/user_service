@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,18 +15,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User {
 
-    private @Id int user_id;
+    private @Id int userId;
 
-    @NotNull(message = "Username darf nicht null sein.")
-    @NotEmpty(message = "Username darf nicht leer sein.")
-    private String user_name;
+    //todo : min/max length
+    @NotEmpty(message = "Username should not be empty.")
+    private String userName;
 
-    @NotNull(message = "Email darf nicht null sein.")
-    @NotEmpty(message = "Email darf nicht leer sein.")
+    //todo: email patternmatcher
+    @NotEmpty(message = "Email should not be empty.")
     private String email;
 
-    @NotNull(message = "Password darf nicht null sein.")
-    @NotEmpty(message = "Password darf nicht leer sein.")
+    //todo: complexity rules
+    @NotEmpty(message = "Password should not be empty.")
     private String password;
 
     private LocalDateTime created;

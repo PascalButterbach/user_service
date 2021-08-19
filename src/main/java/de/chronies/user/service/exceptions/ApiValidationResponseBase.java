@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
-public class ApiValidationExceptionBase extends RuntimeException  {
+public class ApiValidationResponseBase extends RuntimeException  {
 
     private final Map<String, String> messages;
     private final HttpStatus status;

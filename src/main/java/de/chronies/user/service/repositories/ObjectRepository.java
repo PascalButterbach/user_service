@@ -1,9 +1,8 @@
 package de.chronies.user.service.repositories;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface ObjectRepository<T> {
+
+    boolean update(T t);
 
     boolean create(T t);
 

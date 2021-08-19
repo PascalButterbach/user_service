@@ -1,6 +1,6 @@
 package de.chronies.user.service.repositories;
 
-import de.chronies.user.service.exceptions.ApiExceptionBase;
+import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -20,8 +20,8 @@ public class UserRepository implements ObjectRepository<User> {
     private final JdbcTemplate jdbcTemplate;
 
     RowMapper<User> rowMapper = (rs, rowNum) -> User.builder()
-            .user_id(rs.getInt("user_id"))
-            .user_name(rs.getString("user_name"))
+            .userId(rs.getInt("user_id"))
+            .userName(rs.getString("user_name"))
             .email(rs.getString("email"))
             .password(rs.getString("password"))
             .created(rs.getObject("created", LocalDateTime.class))
@@ -35,13 +35,6 @@ public class UserRepository implements ObjectRepository<User> {
         return jdbcTemplate.query(sql, rowMapper);
     }*/
 
-/*
-    @Override
-    public boolean create(User user) {
-        String sql = "INSERT INTO user_service.user VALUES (default,?,?)";
-        return jdbcTemplate.update(sql, user.getUser_name(), user.getPassword()) > 0;
-    }
-*/
 
 /*
     @Override
@@ -74,7 +67,34 @@ public class UserRepository implements ObjectRepository<User> {
         return jdbcTemplate.update(sql, id) > 0;
     }
 */
+    @Override
+    public boolean update(User user) {
+        String sql = "UPDATE user_service.user " +
+                     "SET user_name = ?, " +
+                     "password = ?, " +
+                     "email = ?, " +
+                     "changed = current_timestamp " +
+                     "WHERE user_id = ?";
 
+        boolean result;
+
+        try {
+            result = jdbcTemplate.update(sql,
+                    user.getUserName(),
+                    user.getPassword(),
+                    user.getEmail(),
+                    user.getUserId()) > 0;
+        } catch (DuplicateKeyException e){
+            throw new ApiResponseBase("Email in use. No changes applied to your account.", HttpStatus.NOT_ACCEPTABLE);
+        }
+        catch (DataAccessException e) {
+            throw new ApiResponseBase("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return result;
+
+
+    }
 
     @Override
     public boolean create(User user) {
@@ -85,13 +105,13 @@ public class UserRepository implements ObjectRepository<User> {
         try {
             result = jdbcTemplate.update(sql,
                     user.getEmail(),
-                    user.getUser_name(),
+                    user.getUserName(),
                     user.getPassword()) > 0;
         } catch (DuplicateKeyException e){
-            throw new ApiExceptionBase("Email in use. Try registering with another email.", HttpStatus.NOT_ACCEPTABLE);
+            throw new ApiResponseBase("Email in use. Try registering with another email.", HttpStatus.NOT_ACCEPTABLE);
         }
         catch (DataAccessException e) {
-            throw new ApiExceptionBase("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiResponseBase("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return result;

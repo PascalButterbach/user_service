@@ -1,4 +1,4 @@
-package de.chronies.user.service.exceptions;
+package de.chronies.user.service.responses;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.util.Locale;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class ApiException {
+public class ApiResponse {
 
     private final String message;
     private final HttpStatus status;

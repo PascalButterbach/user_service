@@ -1,4 +1,4 @@
-package de.chronies.user.service.exceptions;
+package de.chronies.user.service.responses;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.Map;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class ApiValidationException {
+public class ApiValidationResponse {
 
     private final Map<String, String> messages;
     private final HttpStatus status;

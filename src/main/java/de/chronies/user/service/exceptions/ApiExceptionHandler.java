@@ -1,5 +1,7 @@
 package de.chronies.user.service.exceptions;
 
+import de.chronies.user.service.responses.ApiResponse;
+import de.chronies.user.service.responses.ApiValidationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,10 +13,10 @@ import java.time.Instant;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(ApiValidationExceptionBase.class)
-    public ResponseEntity<Object> handleValidationException(ApiValidationExceptionBase e, HttpServletRequest request) {
+    @ExceptionHandler(ApiValidationResponseBase.class)
+    public ResponseEntity<Object> handleValidationException(ApiValidationResponseBase e, HttpServletRequest request) {
 
-        var apiException = ApiValidationException.builder()
+        var apiException = ApiValidationResponse.builder()
                 .status(e.getStatus())
                 .messages(e.getMessages())
                 .time(Instant.now())
@@ -25,10 +27,10 @@ public class ApiExceptionHandler {
     }
 
 
-    @ExceptionHandler(ApiExceptionBase.class)
-    public ResponseEntity<Object> handleException(ApiExceptionBase e, HttpServletRequest request) {
+    @ExceptionHandler(ApiResponseBase.class)
+    public ResponseEntity<Object> handleException(ApiResponseBase e, HttpServletRequest request) {
 
-        var apiException = ApiException.builder()
+        var apiException = ApiResponse.builder()
                 .status(e.getStatus())
                 .message(e.getMessage())
                 .time(Instant.now())

@@ -2,9 +2,11 @@ package de.chronies.user.service.controller;
 
 import de.chronies.user.service.dto.CredentialsDto;
 import de.chronies.user.service.dto.TokenResponseDto;
-import de.chronies.user.service.exceptions.ApiExceptionBase;
-import de.chronies.user.service.exceptions.ApiValidationExceptionBase;
+import de.chronies.user.service.dto.UserUpdateDto;
+import de.chronies.user.service.exceptions.ApiResponseBase;
+import de.chronies.user.service.exceptions.ApiValidationResponseBase;
 import de.chronies.user.service.models.User;
+import de.chronies.user.service.responses.ApiResponse;
 import de.chronies.user.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -12,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
@@ -37,12 +36,6 @@ public class UserController {
         public boolean removeUser(@PathVariable Long id) {
             return userRepository.delete(id);
         }
-
-
-        @PostMapping("/add")
-        public boolean registerUser(@RequestBody User user) {
-            return userRepository.create(user);
-        }
     */
 
     @PostMapping("/register")
@@ -55,7 +48,7 @@ public class UserController {
                     .collect(Collectors.toMap(DefaultMessageSourceResolvable::getDefaultMessage,
                             t -> ((FieldError) t).getField()));
 
-            throw new ApiValidationExceptionBase(errors, HttpStatus.CONFLICT);
+            throw new ApiValidationResponseBase(errors, HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(userService.registerUser(user));
@@ -63,8 +56,25 @@ public class UserController {
 
 
     @PostMapping("/signIn")
-    public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiExceptionBase {
+    public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiResponseBase {
         return ResponseEntity.ok(userService.signIn(credentialsDto));
+    }
+
+
+    @PutMapping({"/update"})
+    public ResponseEntity<ApiResponse> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+
+            var errors = bindingResult.getAllErrors()
+                    .stream()
+                    .collect(Collectors.toMap(DefaultMessageSourceResolvable::getDefaultMessage,
+                            t -> ((FieldError) t).getField()));
+
+            throw new ApiValidationResponseBase(errors, HttpStatus.CONFLICT);
+        }
+
+        return ResponseEntity.ok(userService.update(userUpdateDto));
     }
 
 }
