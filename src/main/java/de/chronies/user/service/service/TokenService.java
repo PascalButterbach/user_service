@@ -51,7 +51,7 @@ public class TokenService {
         User user = userOptional.get();
 
         return GatewayAuthResponseDto.builder()
-                .user_id(user.getUserId())
+                .user_id(user.getUser_id())
                 .build();
     }
 
@@ -70,8 +70,8 @@ public class TokenService {
     private String getAccess_token(User user, Date now) {
         return JWT.create()
                 .withIssuer(ISSUER)
-                .withSubject(user.getUserName())
-                .withAudience(String.valueOf(user.getUserId()), user.getEmail())
+                .withSubject(user.getUser_name())
+                .withAudience(String.valueOf(user.getUser_id()), user.getEmail())
                 .withIssuedAt(now)
                 .withExpiresAt(new Date(System.currentTimeMillis() + MAX_DURATION))
                 .withArrayClaim("scope", new String[0])

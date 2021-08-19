@@ -20,8 +20,8 @@ public class UserRepository implements ObjectRepository<User> {
     private final JdbcTemplate jdbcTemplate;
 
     RowMapper<User> rowMapper = (rs, rowNum) -> User.builder()
-            .userId(rs.getInt("user_id"))
-            .userName(rs.getString("user_name"))
+            .user_id(rs.getInt("user_id"))
+            .user_name(rs.getString("user_name"))
             .email(rs.getString("email"))
             .password(rs.getString("password"))
             .created(rs.getObject("created", LocalDateTime.class))
@@ -80,10 +80,10 @@ public class UserRepository implements ObjectRepository<User> {
 
         try {
             result = jdbcTemplate.update(sql,
-                    user.getUserName(),
+                    user.getUser_name(),
                     user.getPassword(),
                     user.getEmail(),
-                    user.getUserId()) > 0;
+                    user.getUser_id()) > 0;
         } catch (DuplicateKeyException e){
             throw new ApiResponseBase("Email in use. No changes applied to your account.", HttpStatus.NOT_ACCEPTABLE);
         }
@@ -105,7 +105,7 @@ public class UserRepository implements ObjectRepository<User> {
         try {
             result = jdbcTemplate.update(sql,
                     user.getEmail(),
-                    user.getUserName(),
+                    user.getUser_name(),
                     user.getPassword()) > 0;
         } catch (DuplicateKeyException e){
             throw new ApiResponseBase("Email in use. Try registering with another email.", HttpStatus.NOT_ACCEPTABLE);

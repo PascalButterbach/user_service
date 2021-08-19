@@ -85,7 +85,7 @@ public class UserService {
         //update username
         boolean updateUserName = userUpdateDto.getNew_username() != null;
         if(updateUserName)
-            user.setUserName(userUpdateDto.getNew_username());
+            user.setUser_name(userUpdateDto.getNew_username());
 
         userRepository.update(user);
 

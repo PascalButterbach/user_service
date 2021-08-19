@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User {
 
-    private @Id int userId;
+    private @Id int user_id;
 
     //todo : min/max length
     @NotEmpty(message = "Username should not be empty.")
-    private String userName;
+    private String user_name;
 
     //todo: email patternmatcher
     @NotEmpty(message = "Email should not be empty.")
