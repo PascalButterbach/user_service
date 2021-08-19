@@ -57,4 +57,8 @@ public class AuthService {
                 .user_id(user.getUser_id())
                 .build();
     }
+
+    public GatewayAuthResponseDto refreshToken(String token) {
+        return  null;
+    }
 }

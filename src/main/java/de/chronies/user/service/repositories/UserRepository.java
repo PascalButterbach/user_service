@@ -108,7 +108,7 @@ public class UserRepository implements ObjectRepository<User> {
                     user.getUser_name(),
                     user.getPassword()) > 0;
         } catch (DuplicateKeyException e){
-            throw new ApiResponseBase("Email in use. Try registering with another email.", HttpStatus.NOT_ACCEPTABLE);
+            throw new ApiResponseBase("Email in use. Try registering with a different email.", HttpStatus.NOT_ACCEPTABLE);
         }
         catch (DataAccessException e) {
             throw new ApiResponseBase("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);

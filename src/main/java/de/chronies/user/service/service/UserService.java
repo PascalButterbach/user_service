@@ -38,6 +38,8 @@ public class UserService {
 
         userRepository.create(user);
 
+        user = findUserByEmail(user.getEmail());
+
         return tokenService.createTokenResponseDto(user);
     }
 

@@ -25,7 +25,7 @@ public class TokenController {
 
     @PostMapping("/refreshToken")
     public ResponseEntity<GatewayAuthResponseDto> refreshToken(@RequestBody TokenDto tokenDto) {
-        return ResponseEntity.ok(authService.validateToken(tokenDto.getToken()));
+        return ResponseEntity.ok(authService.refreshToken(tokenDto.getToken()));
     }
 
 }
