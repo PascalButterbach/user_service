@@ -14,7 +14,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.TimeZone;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
