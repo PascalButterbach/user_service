@@ -1,32 +1,29 @@
 package de.chronies.user.service.controller;
 
+import de.chronies.user.service.config.interceptors.BearerTokenWrapper;
 import de.chronies.user.service.responses.GatewayAuthResponseDto;
-import de.chronies.user.service.dto.TokenDto;
 import de.chronies.user.service.responses.TokenResponseDto;
 import de.chronies.user.service.service.AuthService;
-import de.chronies.user.service.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/token")
 public class TokenController {
+
     private final AuthService authService;
-    private final TokenService tokenService;
+    private final BearerTokenWrapper bearerTokenWrapper;
 
     @PostMapping("/validateToken")
-    public ResponseEntity<GatewayAuthResponseDto> validateToken(@RequestBody TokenDto tokenDto) {
-        return ResponseEntity.ok(authService.validateToken(tokenDto.getToken()));
+    public ResponseEntity<GatewayAuthResponseDto> validateToken() {
+        return ResponseEntity.ok(authService.validateToken(bearerTokenWrapper.getToken()));
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity<TokenResponseDto> refreshToken(@RequestBody TokenDto tokenDto) {
-        return ResponseEntity.ok(authService.refreshToken(tokenDto.getToken()));
+    public ResponseEntity<TokenResponseDto> refreshToken() {
+        return ResponseEntity.ok(authService.refreshToken(bearerTokenWrapper.getToken()));
     }
 
 }
