@@ -1,8 +1,8 @@
 package de.chronies.user.service.controller;
 
-import de.chronies.user.service.dto.GatewayAuthResponseDto;
+import de.chronies.user.service.responses.GatewayAuthResponseDto;
 import de.chronies.user.service.dto.TokenDto;
-import de.chronies.user.service.dto.TokenResponseDto;
+import de.chronies.user.service.responses.TokenResponseDto;
 import de.chronies.user.service.service.AuthService;
 import de.chronies.user.service.service.TokenService;
 import lombok.RequiredArgsConstructor;

@@ -1,12 +1,12 @@
 package de.chronies.user.service.controller;
 
 import de.chronies.user.service.dto.CredentialsDto;
-import de.chronies.user.service.dto.TokenResponseDto;
+import de.chronies.user.service.responses.TokenResponseDto;
 import de.chronies.user.service.dto.UserUpdateDto;
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.exceptions.ApiValidationResponseBase;
 import de.chronies.user.service.models.User;
-import de.chronies.user.service.responses.ApiResponse;
+import de.chronies.user.service.responses.ApiResponseDto;
 import de.chronies.user.service.service.AuthService;
 import de.chronies.user.service.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @PutMapping({"/update"})
-    public ResponseEntity<ApiResponse> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto, BindingResult bindingResult) {
+    public ResponseEntity<ApiResponseDto> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
 

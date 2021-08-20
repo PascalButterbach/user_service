@@ -1,16 +1,12 @@
 package de.chronies.user.service.service;
 
-import de.chronies.user.service.dto.CredentialsDto;
-import de.chronies.user.service.dto.TokenResponseDto;
+import de.chronies.user.service.responses.TokenResponseDto;
 import de.chronies.user.service.dto.UserUpdateDto;
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.UserRepository;
-import de.chronies.user.service.responses.ApiResponse;
+import de.chronies.user.service.responses.ApiResponseDto;
 import lombok.RequiredArgsConstructor;
-
-
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,7 +39,7 @@ public class UserService {
         return tokenService.createTokenResponseDto(user);
     }
 
-    public ApiResponse update(UserUpdateDto userUpdateDto) {
+    public ApiResponseDto update(UserUpdateDto userUpdateDto) {
         // fetch user
         var user = findUserByEmail(userUpdateDto.getEmail());
 
@@ -88,7 +84,7 @@ public class UserService {
 
         String message = somethingChanged ? "Your account has been updated. Please login again" : "No changes were made.";
 
-        return ApiResponse.builder()
+        return ApiResponseDto.builder()
                 .message(message)
                 .status(HttpStatus.OK)
                 .time(Instant.now())

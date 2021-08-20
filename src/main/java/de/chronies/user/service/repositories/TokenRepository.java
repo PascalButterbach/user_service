@@ -2,7 +2,6 @@ package de.chronies.user.service.repositories;
 
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.RefreshToken;
-import de.chronies.user.service.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;

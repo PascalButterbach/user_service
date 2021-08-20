@@ -12,11 +12,11 @@ import java.util.Map;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class ApiValidationResponse {
+public class ApiValidationResponseDto {
 
     private final Map<String, String> messages;
     private final HttpStatus status;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", timezone = "CEST")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", timezone = "Europe/Berlin")
     private final Instant time;
     private final String path;
 

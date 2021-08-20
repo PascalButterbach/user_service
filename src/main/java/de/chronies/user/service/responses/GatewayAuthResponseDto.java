@@ -1,4 +1,4 @@
-package de.chronies.user.service.dto;
+package de.chronies.user.service.responses;
 
 import lombok.*;
 

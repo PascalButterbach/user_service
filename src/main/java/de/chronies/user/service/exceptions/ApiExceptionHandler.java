@@ -1,7 +1,7 @@
 package de.chronies.user.service.exceptions;
 
-import de.chronies.user.service.responses.ApiResponse;
-import de.chronies.user.service.responses.ApiValidationResponse;
+import de.chronies.user.service.responses.ApiResponseDto;
+import de.chronies.user.service.responses.ApiValidationResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +16,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ApiValidationResponseBase.class)
     public ResponseEntity<Object> handleValidationException(ApiValidationResponseBase e, HttpServletRequest request) {
 
-        var apiException = ApiValidationResponse.builder()
+        var apiException = ApiValidationResponseDto.builder()
                 .status(e.getStatus())
                 .messages(e.getMessages())
                 .time(Instant.now())
@@ -30,7 +30,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ApiResponseBase.class)
     public ResponseEntity<Object> handleException(ApiResponseBase e, HttpServletRequest request) {
 
-        var apiException = ApiResponse.builder()
+        var apiException = ApiResponseDto.builder()
                 .status(e.getStatus())
                 .message(e.getMessage())
                 .time(Instant.now())

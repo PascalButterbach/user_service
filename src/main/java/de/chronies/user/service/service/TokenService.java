@@ -2,7 +2,7 @@ package de.chronies.user.service.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import de.chronies.user.service.dto.TokenResponseDto;
+import de.chronies.user.service.responses.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.RefreshToken;
 import de.chronies.user.service.models.User;
