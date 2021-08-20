@@ -19,44 +19,6 @@ public class UserRepository implements ObjectRepository<User> {
     private final JdbcTemplate jdbcTemplate;
     private final UserMapper rowMapper;
 
-/*    @Override
-    public List<User> getAll() {
-        String sql = "SELECT * FROM [user]";
-        return jdbcTemplate.query(sql, rowMapper);
-    }*/
-
-
-/*
-    @Override
-    public Optional<User> get(long id) throws DataAccessException {
-        String sql = "SELECT * FROM user_service.user WHERE user_id = ?";
-
-        User user = null;
-        try {
-            user = jdbcTemplate.queryForObject(sql, rowMapper, id);
-        } catch (Exception e) {
-            //
-        }
-
-        return Optional.ofNullable(user);
-    }
-*/
-
-/*
-    @Override
-    public boolean update(User user, long id) {
-        String sql = "UPDATE user_service.user SET user_name = ?, password = ? WHERE user_id = ?";
-        return jdbcTemplate.update(sql, user.getUser_name(), user.getPassword(), id) > 0;
-    }
-*/
-
-/*
-    @Override
-    public boolean delete(long id) {
-        String sql = "DELETE FROM user_service.user WHERE user_id = ?";
-        return jdbcTemplate.update(sql, id) > 0;
-    }
-*/
     @Override
     public boolean update(User user) {
         String sql = "UPDATE user_service.user " +
