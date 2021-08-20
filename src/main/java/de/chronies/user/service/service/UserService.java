@@ -81,7 +81,7 @@ public class UserService {
         //persist updates
         userRepository.update(user);
 
-        // Todo : revoke refresh token if email has changed
+        // revoke token -> force relog
         boolean somethingChanged = newPasswordNotNull || updateEmail || updateUserName;
         if(somethingChanged)
             tokenService.revokeRefreshToken(user.getUser_id());

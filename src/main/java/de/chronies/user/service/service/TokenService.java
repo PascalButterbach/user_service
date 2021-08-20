@@ -33,6 +33,7 @@ public class TokenService {
     public TokenResponseDto createTokenResponseDto(User user) {
         Date now = new Date();
 
+        // TODO: add url to revoke token + rebuild to sent via authheader instead of post ["token"]
         return TokenResponseDto.builder()
                 .access_token(createAccessToken(user, now))
                 .at_expires_in(ACCESS_TOKEN_MAX_DURATION / 1000)
@@ -77,7 +78,7 @@ public class TokenService {
     }
 
     public void revokeRefreshToken(int userId) {
-        tokenRepository.getActiveTokenByUserId(userId).forEach(refreshToken -> {
+        tokenRepository.findActiveTokenByUserId(userId).forEach(refreshToken -> {
             refreshToken.setRevoked(true);
             refreshToken.setExpired(new Date());
             tokenRepository.update(refreshToken);
@@ -86,7 +87,7 @@ public class TokenService {
 
 
     public RefreshToken getRefreshTokenByRefreshToken(String token) {
-        return tokenRepository.getRefreshTokenByRefreshToken(token)
+        return tokenRepository.findRefreshTokenByRefreshToken(token)
                 .orElseThrow(() -> new ApiResponseBase("Refresh Token not found.", HttpStatus.BAD_REQUEST));
     }
 }

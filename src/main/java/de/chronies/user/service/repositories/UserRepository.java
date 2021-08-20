@@ -45,7 +45,7 @@ public class UserRepository implements ObjectRepository<User> {
         try {
             user = jdbcTemplate.queryForObject(sql, rowMapper, id);
         } catch (Exception e) {
-            //TODO : Logging
+            //
         }
 
         return Optional.ofNullable(user);
