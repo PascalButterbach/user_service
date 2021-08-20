@@ -45,8 +45,8 @@ public class UserController {
         return ResponseEntity.ok(authService.signIn(credentialsDto));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<TokenResponseDto> registerUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+    @PostMapping("/signUp")
+    public ResponseEntity<TokenResponseDto> signUp(@Valid @RequestBody User user, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
 

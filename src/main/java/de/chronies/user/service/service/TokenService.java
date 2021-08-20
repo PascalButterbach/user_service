@@ -16,14 +16,13 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class TokenService {
 
-
     private final TokenRepository tokenRepository;
     private final Algorithm algorithm;
 
-    @Value("${jwt.access_token.duration}")
+    @Value("${jwt.access_token_duration}")
     private Long ACCESS_TOKEN_MAX_DURATION;
 
-    @Value("${jwt.refresh_token.duration}")
+    @Value("${jwt.refresh_token_duration}")
     private Long REFRESH_TOKEN_MAX_DURATION;
 
     @Value("${jwt.issuer}")
@@ -34,8 +33,11 @@ public class TokenService {
 
         return TokenResponseDto.builder()
                 .access_token(createAccessToken(user, now))
+                .at_expires_in(ACCESS_TOKEN_MAX_DURATION / 1000)
+                .at_expires_at(new Date(now.getTime() + ACCESS_TOKEN_MAX_DURATION))
                 .refresh_token(createRefreshToken(user, now))
-                .expires_in(ACCESS_TOKEN_MAX_DURATION / 1000)
+                .rt_expires_in(REFRESH_TOKEN_MAX_DURATION / 1000)
+                .rt_expires_at(new Date(now.getTime() + REFRESH_TOKEN_MAX_DURATION))
                 .token_type("bearer")
                 .build();
     }
@@ -52,7 +54,7 @@ public class TokenService {
     }
 
     private String createRefreshToken(User user, Date now) {
-        // TODO: DELETE / REMOVE OLD RFTOKEN
+        // TODO: GET ACTIVE REFRESH TOKEN (not revoked + not expired)
         revokeRefreshToken(user.getUser_id());
 
         String refresh_token = JWT.create()
@@ -60,10 +62,8 @@ public class TokenService {
                 .withSubject(user.getUser_name())
                 .withAudience(String.valueOf(user.getUser_id()), user.getEmail())
                 .withIssuedAt(now)
-                .withExpiresAt(new Date(now.getTime() + ACCESS_TOKEN_MAX_DURATION))
-                .withArrayClaim("scope", new String[0])
+                .withExpiresAt(new Date(now.getTime() + REFRESH_TOKEN_MAX_DURATION))
                 .sign(algorithm);
-
 
         tokenRepository.create(RefreshToken.builder()
                 .user_id(user.getUser_id())

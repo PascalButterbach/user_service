@@ -11,7 +11,6 @@ import de.chronies.user.service.dto.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,6 +39,16 @@ public class AuthService {
         throw new ApiResponseBase("Invalid password.", HttpStatus.BAD_REQUEST);
     }
 
+
+    public TokenResponseDto refreshToken(String token) {
+        String user_email = validateToken(token).getUser_email();
+
+        var user = userService.findUserByEmail(user_email);
+
+        return  tokenService.createTokenResponseDto(user);
+    }
+
+
     public GatewayAuthResponseDto validateToken(String token) {
         String email;
 
@@ -55,10 +64,7 @@ public class AuthService {
 
         return GatewayAuthResponseDto.builder()
                 .user_id(user.getUser_id())
+                .user_email(user.getEmail())
                 .build();
-    }
-
-    public GatewayAuthResponseDto refreshToken(String token) {
-        return  null;
     }
 }

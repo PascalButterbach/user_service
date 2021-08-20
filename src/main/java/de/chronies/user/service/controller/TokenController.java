@@ -2,6 +2,7 @@ package de.chronies.user.service.controller;
 
 import de.chronies.user.service.dto.GatewayAuthResponseDto;
 import de.chronies.user.service.dto.TokenDto;
+import de.chronies.user.service.dto.TokenResponseDto;
 import de.chronies.user.service.service.AuthService;
 import de.chronies.user.service.service.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class TokenController {
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity<GatewayAuthResponseDto> refreshToken(@RequestBody TokenDto tokenDto) {
+    public ResponseEntity<TokenResponseDto> refreshToken(@RequestBody TokenDto tokenDto) {
         return ResponseEntity.ok(authService.refreshToken(tokenDto.getToken()));
     }
 
