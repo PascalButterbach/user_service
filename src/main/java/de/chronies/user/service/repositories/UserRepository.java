@@ -2,15 +2,14 @@ package de.chronies.user.service.repositories;
 
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.User;
+import de.chronies.user.service.rowmapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -18,16 +17,7 @@ import java.util.Optional;
 public class UserRepository implements ObjectRepository<User> {
 
     private final JdbcTemplate jdbcTemplate;
-
-    RowMapper<User> rowMapper = (rs, rowNum) -> User.builder()
-            .user_id(rs.getInt("user_id"))
-            .user_name(rs.getString("user_name"))
-            .email(rs.getString("email"))
-            .password(rs.getString("password"))
-            .created(rs.getObject("created", LocalDateTime.class))
-            .changed(rs.getObject("changed", LocalDateTime.class))
-            .active(rs.getBoolean("active"))
-            .build();
+    private final UserMapper rowMapper;
 
 /*    @Override
     public List<User> getAll() {

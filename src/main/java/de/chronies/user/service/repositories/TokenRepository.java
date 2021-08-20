@@ -2,6 +2,7 @@ package de.chronies.user.service.repositories;
 
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.RefreshToken;
+import de.chronies.user.service.rowmapper.TokenMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -18,15 +19,7 @@ import java.util.Optional;
 public class TokenRepository implements ObjectRepository<RefreshToken> {
 
     private final JdbcTemplate jdbcTemplate;
-
-    RowMapper<RefreshToken> rowMapper = (rs, rowNum) -> RefreshToken.builder()
-            .token_id(rs.getInt("token_id"))
-            .user_id(rs.getInt("user_id"))
-            .token(rs.getString("token"))
-            .created(rs.getObject("created", Date.class))
-            .expired(rs.getObject("expired", Date.class))
-            .revoked(rs.getBoolean("revoked"))
-            .build();
+    private final TokenMapper rowMapper;
 
     public List<RefreshToken> findActiveTokenByUserId(int userId) {
         String sql = "SELECT * FROM user_service.refresh_token WHERE user_id=? AND revoked=false";
