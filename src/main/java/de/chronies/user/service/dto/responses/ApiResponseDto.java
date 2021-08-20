@@ -15,7 +15,7 @@ public class ApiResponseDto {
 
     private final String message;
     private final HttpStatus status;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", timezone = "Europe/Berlin", locale = "de")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", timezone = "Europe/Berlin")
     private final Instant time;
     private final String path;
 

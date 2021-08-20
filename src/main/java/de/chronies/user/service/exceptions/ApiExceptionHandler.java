@@ -2,19 +2,30 @@ package de.chronies.user.service.exceptions;
 
 import de.chronies.user.service.dto.responses.ApiResponseDto;
 import de.chronies.user.service.dto.responses.ApiValidationResponseDto;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.TimeZone;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
 
     @ExceptionHandler(ApiValidationResponseBase.class)
-    public ResponseEntity<Object> handleValidationException(ApiValidationResponseBase e, HttpServletRequest request) {
+    public ResponseEntity<Object> handleValidationException(ApiValidationResponseBase e, HttpServletResponse response, HttpServletRequest request) {
+
+        response.setHeader(HttpHeaders.DATE,DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss z", Locale.US)
+                .withLocale(Locale.GERMANY)
+                .withZone(ZoneId.of("Europe/Berlin"))
+                .format(Instant.now()));
 
         var apiException = ApiValidationResponseDto.builder()
                 .status(e.getStatus())
@@ -28,7 +39,13 @@ public class ApiExceptionHandler {
 
 
     @ExceptionHandler(ApiResponseBase.class)
-    public ResponseEntity<Object> handleException(ApiResponseBase e, HttpServletRequest request) {
+    public ResponseEntity<Object> handleException(ApiResponseBase e, HttpServletResponse response, HttpServletRequest request) {
+
+        response.setHeader(HttpHeaders.DATE,DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss z", Locale.US)
+                .withLocale(Locale.GERMANY)
+                .withZone(ZoneId.of("Europe/Berlin"))
+                .format(Instant.now()));
+
 
         var apiException = ApiResponseDto.builder()
                 .status(e.getStatus())
