@@ -128,6 +128,5 @@ public class UserRepository implements ObjectRepository<User> {
         }
 
         return Optional.ofNullable(user);
-
     }
 }

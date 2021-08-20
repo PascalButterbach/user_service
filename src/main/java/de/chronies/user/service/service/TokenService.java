@@ -3,11 +3,13 @@ package de.chronies.user.service.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import de.chronies.user.service.dto.TokenResponseDto;
+import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.RefreshToken;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -54,7 +56,6 @@ public class TokenService {
     }
 
     private String createRefreshToken(User user, Date now) {
-        // TODO: GET ACTIVE REFRESH TOKEN (not revoked + not expired)
         revokeRefreshToken(user.getUser_id());
 
         String refresh_token = JWT.create()
@@ -83,4 +84,9 @@ public class TokenService {
         });
     }
 
+
+    public RefreshToken getRefreshTokenByRefreshToken(String token) {
+        return tokenRepository.getRefreshTokenByRefreshToken(token)
+                .orElseThrow(() -> new ApiResponseBase("Refresh Token not found.", HttpStatus.BAD_REQUEST));
+    }
 }

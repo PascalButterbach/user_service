@@ -9,11 +9,14 @@ import de.chronies.user.service.dto.CredentialsDto;
 import de.chronies.user.service.dto.GatewayAuthResponseDto;
 import de.chronies.user.service.dto.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiResponseBase;
+import de.chronies.user.service.models.RefreshToken;
 import de.chronies.user.service.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +44,14 @@ public class AuthService {
 
 
     public TokenResponseDto refreshToken(String token) {
-        String user_email = validateToken(token).getUser_email();
+        GatewayAuthResponseDto dto = validateToken(token);
 
-        var user = userService.findUserByEmail(user_email);
+        RefreshToken refreshToken = tokenService.getRefreshTokenByRefreshToken(token);
+        if(refreshToken.isRevoked() || refreshToken.getExpired().before(new Date(System.currentTimeMillis()))){
+            throw new ApiResponseBase("Refresh Token is expired/revoked.", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userService.findUserByEmail(dto.getUser_email());
 
         return  tokenService.createTokenResponseDto(user);
     }
