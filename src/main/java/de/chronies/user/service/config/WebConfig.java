@@ -39,7 +39,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(bearerTokenInterceptor()).addPathPatterns("/token/validateToken","/token/refreshToken");
+        registry.addInterceptor(bearerTokenInterceptor())
+                .addPathPatterns("/token/validateToken",
+                                "/token/refreshToken",
+                                "/token/revokeRefreshToken");
     }
 
     @Bean

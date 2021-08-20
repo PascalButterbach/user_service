@@ -1,7 +1,7 @@
 package de.chronies.user.service.exceptions;
 
-import de.chronies.user.service.responses.ApiResponseDto;
-import de.chronies.user.service.responses.ApiValidationResponseDto;
+import de.chronies.user.service.dto.responses.ApiResponseDto;
+import de.chronies.user.service.dto.responses.ApiValidationResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

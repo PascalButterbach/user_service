@@ -1,11 +1,11 @@
 package de.chronies.user.service.service;
 
-import de.chronies.user.service.responses.TokenResponseDto;
+import de.chronies.user.service.dto.responses.TokenResponseDto;
 import de.chronies.user.service.dto.UserUpdateDto;
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.UserRepository;
-import de.chronies.user.service.responses.ApiResponseDto;
+import de.chronies.user.service.dto.responses.ApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;

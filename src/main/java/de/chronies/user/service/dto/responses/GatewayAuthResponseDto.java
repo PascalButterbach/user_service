@@ -1,6 +1,8 @@
-package de.chronies.user.service.responses;
+package de.chronies.user.service.dto.responses;
 
-import lombok.*;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

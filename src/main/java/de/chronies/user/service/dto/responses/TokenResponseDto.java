@@ -1,4 +1,4 @@
-package de.chronies.user.service.responses;
+package de.chronies.user.service.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

@@ -1,12 +1,12 @@
 package de.chronies.user.service.controller;
 
 import de.chronies.user.service.dto.CredentialsDto;
-import de.chronies.user.service.responses.TokenResponseDto;
 import de.chronies.user.service.dto.UserUpdateDto;
+import de.chronies.user.service.dto.responses.ApiResponseDto;
+import de.chronies.user.service.dto.responses.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiResponseBase;
 import de.chronies.user.service.exceptions.ApiValidationResponseBase;
 import de.chronies.user.service.models.User;
-import de.chronies.user.service.responses.ApiResponseDto;
 import de.chronies.user.service.service.AuthService;
 import de.chronies.user.service.service.UserService;
 import lombok.RequiredArgsConstructor;
