@@ -8,7 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import de.chronies.user.service.dto.CredentialsDto;
 import de.chronies.user.service.dto.responses.GatewayAuthResponseDto;
 import de.chronies.user.service.dto.responses.TokenResponseDto;
-import de.chronies.user.service.exceptions.ApiResponseBase;
+import de.chronies.user.service.exceptions.ApiException;
 import de.chronies.user.service.models.RefreshToken;
 import de.chronies.user.service.models.User;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +36,10 @@ public class AuthService {
         }
 
         if (!user.isActive()) {
-            throw new ApiResponseBase("Account is disabled.", HttpStatus.BAD_REQUEST);
+            throw new ApiException("Account is disabled.", HttpStatus.BAD_REQUEST);
         }
 
-        throw new ApiResponseBase("Invalid password.", HttpStatus.BAD_REQUEST);
+        throw new ApiException("Invalid password.", HttpStatus.BAD_REQUEST);
     }
 
 
@@ -48,7 +48,7 @@ public class AuthService {
 
         RefreshToken refreshToken = tokenService.getRefreshTokenByRefreshToken(token);
         if(refreshToken.isRevoked() || refreshToken.getExpired().before(new Date(System.currentTimeMillis()))){
-            throw new ApiResponseBase("Refresh Token is expired/revoked.", HttpStatus.BAD_REQUEST);
+            throw new ApiException("Refresh Token is expired/revoked.", HttpStatus.BAD_REQUEST);
         }
 
         User user = userService.findUserByEmail(dto.getUser_email());
@@ -65,7 +65,7 @@ public class AuthService {
             DecodedJWT decodedJWT = verifier.verify(token);
             email = decodedJWT.getAudience().get(1);
         } catch (JWTVerificationException e) {
-            throw new ApiResponseBase(e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new ApiException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         User user = userService.findUserByEmail(email);

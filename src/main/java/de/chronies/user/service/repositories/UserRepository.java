@@ -1,6 +1,6 @@
 package de.chronies.user.service.repositories;
 
-import de.chronies.user.service.exceptions.ApiResponseBase;
+import de.chronies.user.service.exceptions.ApiException;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.rowmapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +37,10 @@ public class UserRepository implements ObjectRepository<User> {
                     user.getEmail(),
                     user.getUser_id()) > 0;
         } catch (DuplicateKeyException e){
-            throw new ApiResponseBase("Email in use. No changes applied to your account.", HttpStatus.NOT_ACCEPTABLE);
+            throw new ApiException("Email in use. No changes applied to your account.", HttpStatus.NOT_ACCEPTABLE);
         }
         catch (DataAccessException e) {
-            throw new ApiResponseBase("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return result;
@@ -60,10 +60,10 @@ public class UserRepository implements ObjectRepository<User> {
                     user.getUser_name(),
                     user.getPassword()) > 0;
         } catch (DuplicateKeyException e){
-            throw new ApiResponseBase("Email in use. Try registering with a different email.", HttpStatus.NOT_ACCEPTABLE);
+            throw new ApiException("Email in use. Try registering with a different email.", HttpStatus.NOT_ACCEPTABLE);
         }
         catch (DataAccessException e) {
-            throw new ApiResponseBase("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return result;

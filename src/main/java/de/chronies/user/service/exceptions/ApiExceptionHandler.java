@@ -18,13 +18,10 @@ import java.util.Locale;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(ApiValidationResponseBase.class)
-    public ResponseEntity<Object> handleValidationException(ApiValidationResponseBase e, HttpServletResponse response, HttpServletRequest request) {
+    @ExceptionHandler(ApiValidationException.class)
+    public ResponseEntity<ApiValidationResponseDto> handleValidationException(ApiValidationException e, HttpServletResponse response, HttpServletRequest request) {
 
-        response.setHeader(HttpHeaders.DATE,DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss z", Locale.US)
-                .withLocale(Locale.GERMANY)
-                .withZone(ZoneId.of("Europe/Berlin"))
-                .format(Instant.now()));
+        modifyResponse(response);
 
         var apiException = ApiValidationResponseDto.builder()
                 .status(e.getStatus())
@@ -36,15 +33,10 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiException, apiException.getStatus());
     }
 
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiResponseDto> handleException(ApiException e, HttpServletResponse response, HttpServletRequest request) {
 
-    @ExceptionHandler(ApiResponseBase.class)
-    public ResponseEntity<Object> handleException(ApiResponseBase e, HttpServletResponse response, HttpServletRequest request) {
-
-        response.setHeader(HttpHeaders.DATE,DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss z", Locale.US)
-                .withLocale(Locale.GERMANY)
-                .withZone(ZoneId.of("Europe/Berlin"))
-                .format(Instant.now()));
-
+        modifyResponse(response);
 
         var apiException = ApiResponseDto.builder()
                 .status(e.getStatus())
@@ -56,4 +48,10 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiException, apiException.getStatus());
     }
 
+    private void modifyResponse(HttpServletResponse response) {
+        response.setHeader(HttpHeaders.DATE, DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss z", Locale.US)
+                .withLocale(Locale.GERMANY)
+                .withZone(ZoneId.of("Europe/Berlin"))
+                .format(Instant.now()));
+    }
 }

@@ -2,7 +2,7 @@ package de.chronies.user.service.service;
 
 import de.chronies.user.service.dto.responses.TokenResponseDto;
 import de.chronies.user.service.dto.UserUpdateDto;
-import de.chronies.user.service.exceptions.ApiResponseBase;
+import de.chronies.user.service.exceptions.ApiException;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.UserRepository;
 import de.chronies.user.service.dto.responses.ApiResponseDto;
@@ -24,7 +24,7 @@ public class UserService {
 
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email)
-                .orElseThrow(() -> new ApiResponseBase("Email/User not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiException("Email/User not found.", HttpStatus.NOT_FOUND));
     }
 
 
@@ -46,13 +46,13 @@ public class UserService {
         // validate password
         boolean passwordIncorrect = !passwordEncoder.matches(userUpdateDto.getPassword(), user.getPassword());
         if (passwordIncorrect)
-            throw new ApiResponseBase("Invalid password.", HttpStatus.BAD_REQUEST);
+            throw new ApiException("Invalid password.", HttpStatus.BAD_REQUEST);
 
         // update password if required
         boolean newPasswordNotNull = userUpdateDto.getNew_password() != null;
         boolean newPasswordRepeatedNotNull = userUpdateDto.getNew_password_repeated() != null;
         if (newPasswordNotNull && !newPasswordRepeatedNotNull || !newPasswordNotNull && newPasswordRepeatedNotNull)
-            throw new ApiResponseBase("Please verify your new Password.", HttpStatus.BAD_REQUEST);
+            throw new ApiException("Please verify your new Password.", HttpStatus.BAD_REQUEST);
 
         if (newPasswordNotNull) {
             boolean updatedPasswordEqual = userUpdateDto.getNew_password().equals(userUpdateDto.getNew_password_repeated());
@@ -61,7 +61,7 @@ public class UserService {
                 user.setPassword(passwordEncoder.encode(userUpdateDto.getNew_password()));
 
             if (!updatedPasswordEqual)
-                throw new ApiResponseBase("New Passwords doesnt match.", HttpStatus.BAD_REQUEST);
+                throw new ApiException("New Passwords doesnt match.", HttpStatus.BAD_REQUEST);
         }
 
         //update email

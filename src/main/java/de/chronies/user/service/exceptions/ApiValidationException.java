@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import java.util.Map;
+
 @Getter
 @RequiredArgsConstructor
-public class ApiResponseBase extends RuntimeException {
+public class ApiValidationException extends RuntimeException  {
 
-    private final String message;
+    private final Map<String, String> messages;
     private final HttpStatus status;
 
 }

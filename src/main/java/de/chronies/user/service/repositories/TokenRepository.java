@@ -1,6 +1,6 @@
 package de.chronies.user.service.repositories;
 
-import de.chronies.user.service.exceptions.ApiResponseBase;
+import de.chronies.user.service.exceptions.ApiException;
 import de.chronies.user.service.models.RefreshToken;
 import de.chronies.user.service.rowmapper.TokenMapper;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +62,7 @@ public class TokenRepository implements ObjectRepository<RefreshToken> {
                     refreshToken.getCreated(),
                     refreshToken.getExpired()) > 0;
         } catch (DataAccessException e) {
-            throw new ApiResponseBase("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException("Something went wrong. Contact support or try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return result;

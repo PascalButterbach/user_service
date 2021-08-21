@@ -3,7 +3,7 @@ package de.chronies.user.service.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import de.chronies.user.service.dto.responses.TokenResponseDto;
-import de.chronies.user.service.exceptions.ApiResponseBase;
+import de.chronies.user.service.exceptions.ApiException;
 import de.chronies.user.service.models.RefreshToken;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.TokenRepository;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.sql.Ref;
 import java.util.Date;
 
 @Service
@@ -96,6 +95,6 @@ public class TokenService {
 
     public RefreshToken getRefreshTokenByRefreshToken(String token) {
         return tokenRepository.findRefreshTokenByRefreshToken(token)
-                .orElseThrow(() -> new ApiResponseBase("Refresh Token not found.", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new ApiException("Refresh Token not found.", HttpStatus.BAD_REQUEST));
     }
 }

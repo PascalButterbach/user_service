@@ -4,8 +4,8 @@ import de.chronies.user.service.dto.CredentialsDto;
 import de.chronies.user.service.dto.UserUpdateDto;
 import de.chronies.user.service.dto.responses.ApiResponseDto;
 import de.chronies.user.service.dto.responses.TokenResponseDto;
-import de.chronies.user.service.exceptions.ApiResponseBase;
-import de.chronies.user.service.exceptions.ApiValidationResponseBase;
+import de.chronies.user.service.exceptions.ApiException;
+import de.chronies.user.service.exceptions.ApiValidationException;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.service.AuthService;
 import de.chronies.user.service.service.UserService;
@@ -41,7 +41,7 @@ public class UserController {
     */
 
     @PostMapping("/signIn")
-    public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiResponseBase {
+    public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiException {
         return ResponseEntity.ok(authService.signIn(credentialsDto));
     }
 
@@ -55,7 +55,7 @@ public class UserController {
                     .collect(Collectors.toMap(DefaultMessageSourceResolvable::getDefaultMessage,
                             t -> ((FieldError) t).getField()));
 
-            throw new ApiValidationResponseBase(errors, HttpStatus.CONFLICT);
+            throw new ApiValidationException(errors, HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(userService.registerUser(user));
@@ -71,7 +71,7 @@ public class UserController {
                     .collect(Collectors.toMap(DefaultMessageSourceResolvable::getDefaultMessage,
                             t -> ((FieldError) t).getField()));
 
-            throw new ApiValidationResponseBase(errors, HttpStatus.CONFLICT);
+            throw new ApiValidationException(errors, HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(userService.update(userUpdateDto));
