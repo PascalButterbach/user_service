@@ -1,20 +1,26 @@
 Token Controller
+```diff
+refreshToken
++ POST /token/
 
-POST​/token​/ - refreshToken
+revokeRefreshToken
+! PUT /token/  
 
-PUT​/token​/ - revokeRefreshToken
-
-POST​/token​/validateToken  - validateToken
-
-
+validateToken
++ POST /token/validateToken
+```
 
 User Controller
+```diff
+signUp
++POST /user / 
 
-POST​/user​/ - signUp
+updateUser
+!PUT /user/ 
 
-PUT​/user​/ - updateUser
+removeUser
+-DELETE /user/{id}
 
-DELETE​/user​/{id} - removeUser
-
-POST​/user​/signIn - signIn
-
+signIn
++POST /user/signIn 
+```
