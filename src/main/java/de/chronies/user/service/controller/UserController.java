@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok(authService.signIn(credentialsDto));
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/")
     public ResponseEntity<TokenResponseDto> signUp(@Valid @RequestBody User user, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -49,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
-    @PutMapping({"/update"})
+    @PutMapping({"/"})
     public ResponseEntity<ApiResponseDto> updateUser(@Valid @RequestBody UserUpdateDto userUpdateDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {

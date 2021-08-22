@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerMapping;
@@ -31,12 +32,12 @@ public class TokenController {
         return ResponseEntity.ok(authService.validateToken(bearerTokenWrapper.getToken()));
     }
 
-    @PostMapping("/refreshToken")
+    @PostMapping("/")
     public ResponseEntity<TokenResponseDto> refreshToken() {
         return ResponseEntity.ok(authService.refreshToken(bearerTokenWrapper.getToken()));
     }
 
-    @PostMapping("/revokeRefreshToken")
+    @PutMapping("/")
     public ResponseEntity<ApiResponseDto> revokeRefreshToken(HttpServletRequest request) {
 
         boolean tokenIsRevoked = tokenService.revokeRefreshTokenByRefreshToken(bearerTokenWrapper.getToken());
