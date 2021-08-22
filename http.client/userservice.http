@@ -1,0 +1,75 @@
+POST {{host}}/user/signIn
+Content-Type: application/json
+
+{
+  "email": "pascal@butterbach.org",
+  "password": "the-password"
+}
+> {%
+     client.global.set("access_token", response.body["access_token"]);
+     client.global.set("refresh_token", response.body["refresh_token"]);
+  %}
+
+
+### VALIDATE TOKEN
+POST {{host}}/token/validateToken
+Authorization: Bearer {{access_token}}
+
+
+### REFRESH ACCESS WITH REFRESH TOKEN
+POST {{host}}/token/
+Authorization: Bearer {{refresh_token}}
+
+> {%
+     client.global.set("access_token", response.body["access_token"]);
+     client.global.set("refresh_token", response.body["refresh_token"]);
+  %}
+
+
+### REVOKE REFRESH TOKEN
+PUT {{host}}/token/
+Authorization: Bearer {{refresh_token}}
+
+
+### REGISTER NEW USER
+POST {{host}}/user/
+Content-Type: application/json
+
+{
+  "user_name": "teasdasdasdst",
+  "email": "yyys@butterbach.org",
+  "password": "teadsasdasdst"
+}
+
+> {%
+     client.global.set("access_token", response.body["access_token"]);
+     client.global.set("refresh_token", response.body["refresh_token"]);
+  %}
+
+
+### UPDATE USER
+PUT {{host}}/user/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "email": "yyys@butterbach.org",
+  "password": "teadsasdasdst",
+  "new_email": "tesasdycxtasdasd2asd@butterbach.org",
+  "new_password": "the-password",
+  "new_password_repeated": "the-password",
+  "new_username" : "Opfer"
+}
+
+
+### DELETE USER
+DELETE {{host}}/user/41
+Authorization: Bearer {{access_token}}
+
+
+
+
+
+
+
+
