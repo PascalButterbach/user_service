@@ -1,5 +1,7 @@
 Token Controller
 ```diff
+@@Authorization: Bearer {{access_token/refresh_token}}@@
+
 refreshToken
 + POST /token/
 
