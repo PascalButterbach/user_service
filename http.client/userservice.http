@@ -63,7 +63,7 @@ Content-Type: application/json
 
 
 ### DELETE USER
-DELETE {{host}}/user/41
+DELETE {{host}}/user/42
 Authorization: Bearer {{access_token}}
 
 
