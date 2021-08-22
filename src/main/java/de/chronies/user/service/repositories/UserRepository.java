@@ -44,8 +44,6 @@ public class UserRepository implements ObjectRepository<User> {
         }
 
         return result;
-
-
     }
 
     @Override
@@ -67,6 +65,26 @@ public class UserRepository implements ObjectRepository<User> {
         }
 
         return result;
+    }
+
+    @Override
+    public Optional<User> get(int id) {
+        String sql = "SELECT * FROM user_service.user WHERE user_id = ?";
+
+        User user = null;
+        try {
+            user = jdbcTemplate.queryForObject(sql, rowMapper, id);
+        } catch (Exception e) {
+            // no actions required -> return empty optional
+        }
+
+        return Optional.ofNullable(user);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        String sql = "DELETE FROM user_service.user WHERE user_id = ?";
+        return jdbcTemplate.update(sql, id) > 0;
     }
 
     public Optional<User> findUserByEmail(String email) throws DataAccessException {

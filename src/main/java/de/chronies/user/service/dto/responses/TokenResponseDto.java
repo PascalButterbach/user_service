@@ -23,5 +23,6 @@ public class TokenResponseDto {
     private Long rt_expires_in;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE dd MMM yyyy HH:mm:ss z", timezone = "Europe/Berlin")
     private Date rt_expires_at;
+    private String revoke_at;
 
 }

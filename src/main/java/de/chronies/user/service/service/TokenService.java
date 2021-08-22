@@ -33,7 +33,6 @@ public class TokenService {
     public TokenResponseDto createTokenResponseDto(User user) {
         Date now = new Date();
 
-        // TODO: add url to revoke token + rebuild to sent via authheader instead of post ["token"]
         return TokenResponseDto.builder()
                 .access_token(createAccessToken(user, now))
                 .at_expires_in(ACCESS_TOKEN_MAX_DURATION / 1000)
@@ -42,6 +41,7 @@ public class TokenService {
                 .rt_expires_in(REFRESH_TOKEN_MAX_DURATION / 1000)
                 .rt_expires_at(new Date(now.getTime() + REFRESH_TOKEN_MAX_DURATION))
                 .token_type("bearer")
+                .revoke_at("/token/revokeRefreshToken")
                 .build();
     }
 
@@ -85,7 +85,7 @@ public class TokenService {
         });
     }
 
-    public boolean revokeRefreshTokenByRefreshToken(String token){
+    public boolean revokeRefreshTokenByRefreshToken(String token) {
         RefreshToken refreshToken = getRefreshTokenByRefreshToken(token);
 
         refreshToken.setRevoked(true);

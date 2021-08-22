@@ -14,6 +14,6 @@ public class LocaleConfig {
 
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
 
-        System.out.println("Date in CEST: " + new Date().toString());
+        System.out.println("Date for : \"Europe/Berlin\"" + new Date().toString());
     }
 }

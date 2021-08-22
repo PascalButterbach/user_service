@@ -1,11 +1,11 @@
 package de.chronies.user.service.service;
 
-import de.chronies.user.service.dto.responses.TokenResponseDto;
 import de.chronies.user.service.dto.UserUpdateDto;
+import de.chronies.user.service.dto.responses.ApiResponseDto;
+import de.chronies.user.service.dto.responses.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiException;
 import de.chronies.user.service.models.User;
 import de.chronies.user.service.repositories.UserRepository;
-import de.chronies.user.service.dto.responses.ApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +26,10 @@ public class UserService {
         return userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new ApiException("Email/User not found.", HttpStatus.NOT_FOUND));
     }
-
+    public User findUserById(int id) {
+        return userRepository.get(id)
+                .orElseThrow(() -> new ApiException("Email/User not found.", HttpStatus.NOT_FOUND));
+    }
 
     public TokenResponseDto registerUser(User user) {
 
@@ -91,4 +94,16 @@ public class UserService {
                 .path("/user/update").build();
     }
 
+    public ApiResponseDto delete(int userId) {
+        User user = findUserById(userId);
+
+        String message = userRepository.delete(user.getUser_id()) ?
+                "User has been deleted." : "An Error occured, User has not been deleted";
+
+        return ApiResponseDto.builder()
+                .message(message)
+                .status(HttpStatus.OK)
+                .time(Instant.now())
+                .path("/user/delete").build();
+    }
 }

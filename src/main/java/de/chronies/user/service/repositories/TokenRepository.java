@@ -19,6 +19,12 @@ public class TokenRepository implements ObjectRepository<RefreshToken> {
     private final JdbcTemplate jdbcTemplate;
     private final TokenMapper rowMapper;
 
+    public List<RefreshToken> findTokenByUserId(int userId) {
+        String sql = "SELECT * FROM user_service.refresh_token WHERE user_id=?";
+
+        return jdbcTemplate.query(sql, rowMapper, userId);
+    }
+
     public List<RefreshToken> findActiveTokenByUserId(int userId) {
         String sql = "SELECT * FROM user_service.refresh_token WHERE user_id=? AND revoked=false";
 
@@ -68,5 +74,23 @@ public class TokenRepository implements ObjectRepository<RefreshToken> {
         return result;
     }
 
+    @Override
+    public Optional<RefreshToken> get(int id) {
+        String sql = "SELECT * FROM user_service.refresh_token WHERE token_id = ?";
 
+        RefreshToken refreshToken = null;
+        try {
+            refreshToken = jdbcTemplate.queryForObject(sql, rowMapper, id);
+        } catch (Exception e) {
+            // no actions required -> return empty optional
+        }
+
+        return Optional.ofNullable(refreshToken);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        String sql = "DELETE FROM user_service.refresh_token WHERE token_id = ?";
+        return jdbcTemplate.update(sql, id) > 0;
+    }
 }

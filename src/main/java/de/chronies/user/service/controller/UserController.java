@@ -28,18 +28,6 @@ public class UserController {
     private final UserService userService;
     private final AuthService authService;
 
-    /*
-        @PutMapping("/{id}")
-        public boolean updateUser(@RequestBody User user, @PathVariable Long id) {
-            return userRepository.update(user, id);
-        }
-
-        @DeleteMapping("/{id}")
-        public boolean removeUser(@PathVariable Long id) {
-            return userRepository.delete(id);
-        }
-    */
-
     @PostMapping("/signIn")
     public ResponseEntity<TokenResponseDto> signIn(@RequestBody CredentialsDto credentialsDto) throws ApiException {
         return ResponseEntity.ok(authService.signIn(credentialsDto));
@@ -75,6 +63,12 @@ public class UserController {
         }
 
         return ResponseEntity.ok(userService.update(userUpdateDto));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponseDto> removeUser(@PathVariable int id) {
+        return ResponseEntity.ok(userService.delete(id));
     }
 
 }
