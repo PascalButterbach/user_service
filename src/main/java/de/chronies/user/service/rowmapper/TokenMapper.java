@@ -1,6 +1,6 @@
 package de.chronies.user.service.rowmapper;
 
-import de.chronies.user.service.models.RefreshToken;
+import de.chronies.user.service.model.RefreshToken;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

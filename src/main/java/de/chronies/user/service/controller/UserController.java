@@ -6,7 +6,7 @@ import de.chronies.user.service.dto.responses.ApiResponseDto;
 import de.chronies.user.service.dto.responses.TokenResponseDto;
 import de.chronies.user.service.exceptions.ApiException;
 import de.chronies.user.service.exceptions.ApiValidationException;
-import de.chronies.user.service.models.User;
+import de.chronies.user.service.model.User;
 import de.chronies.user.service.service.AuthService;
 import de.chronies.user.service.service.UserService;
 import lombok.RequiredArgsConstructor;

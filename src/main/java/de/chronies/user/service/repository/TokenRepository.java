@@ -1,7 +1,7 @@
-package de.chronies.user.service.repositories;
+package de.chronies.user.service.repository;
 
 import de.chronies.user.service.exceptions.ApiException;
-import de.chronies.user.service.models.RefreshToken;
+import de.chronies.user.service.model.RefreshToken;
 import de.chronies.user.service.rowmapper.TokenMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;

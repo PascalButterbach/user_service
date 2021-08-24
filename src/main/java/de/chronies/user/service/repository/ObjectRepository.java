@@ -1,4 +1,4 @@
-package de.chronies.user.service.repositories;
+package de.chronies.user.service.repository;
 
 import java.util.Optional;
 
@@ -11,5 +11,4 @@ public interface ObjectRepository<T> {
     Optional<T> get(int id);
 
     boolean delete(int id);
-
 }

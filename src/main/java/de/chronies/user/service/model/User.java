@@ -1,4 +1,4 @@
-package de.chronies.user.service.models;
+package de.chronies.user.service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

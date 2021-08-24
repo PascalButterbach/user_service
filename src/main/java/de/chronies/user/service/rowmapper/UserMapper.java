@@ -1,6 +1,6 @@
 package de.chronies.user.service.rowmapper;
 
-import de.chronies.user.service.models.User;
+import de.chronies.user.service.model.User;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
