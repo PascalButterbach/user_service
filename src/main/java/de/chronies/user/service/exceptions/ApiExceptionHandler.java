@@ -30,9 +30,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiResponseDto> handleException(ApiException e, HttpServletResponse response, HttpServletRequest request) {
 
-        response.setStatus(e.getStatus().value());
-
-        var apiException = ApiResponseDto.builder()
+         var apiException = ApiResponseDto.builder()
                 .status(e.getStatus())
                 .message(e.getMessage())
                 .time(Instant.now())
