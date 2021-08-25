@@ -5,6 +5,7 @@ import de.chronies.user.service.dto.responses.ApiValidationResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,8 @@ public class ApiExceptionHandler {
                 .path(request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString())
                 .build();
 
-        return new ResponseEntity<>(apiException, apiException.getStatus());
+         return ResponseEntity.status(e.getStatus()).body(apiException);
+        //return new ResponseEntity<>(apiException, apiException.getStatus());
     }
 
 }
