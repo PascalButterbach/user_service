@@ -37,7 +37,6 @@ public class HeaderModifierAdvice implements ResponseBodyAdvice<Object> {
         if(body.getClass() == ApiResponseDto.class)
         {
             ApiResponseDto test = (ApiResponseDto) body;
-            System.out.println(test.getStatus().value() + " --- " + test.getStatus());
             response.setStatusCode(test.getStatus());
         }
 
