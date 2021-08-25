@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "email": "pascal@butterbach.org",
-  "password": "the-password"
+  "password": "1234"
 }
 > {%
      client.global.set("access_token", response.body["access_token"]);

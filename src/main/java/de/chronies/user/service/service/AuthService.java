@@ -36,10 +36,10 @@ public class AuthService {
         }
 
         if (!user.isActive()) {
-            throw new ApiException("Account is disabled.", HttpStatus.BAD_REQUEST);
+            throw new ApiException("Account is disabled.", HttpStatus.UNAUTHORIZED);
         }
 
-        throw new ApiException("Invalid password.", HttpStatus.BAD_REQUEST);
+        throw new ApiException("Invalid password.", HttpStatus.UNAUTHORIZED);
     }
 
 
@@ -48,7 +48,7 @@ public class AuthService {
 
         RefreshToken refreshToken = tokenService.getRefreshTokenByRefreshToken(token);
         if(refreshToken.isRevoked() || refreshToken.getExpired().before(new Date(System.currentTimeMillis()))){
-            throw new ApiException("Refresh Token is expired/revoked.", HttpStatus.BAD_REQUEST);
+            throw new ApiException("Refresh Token is expired/revoked.", HttpStatus.UNAUTHORIZED);
         }
 
         User user = userService.findUserByEmail(dto.getUser_email());
@@ -65,7 +65,7 @@ public class AuthService {
             DecodedJWT decodedJWT = verifier.verify(token);
             email = decodedJWT.getAudience().get(1);
         } catch (JWTVerificationException e) {
-            throw new ApiException(e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new ApiException(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
         User user = userService.findUserByEmail(email);
