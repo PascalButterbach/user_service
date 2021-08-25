@@ -53,11 +53,11 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "email": "yyys@butterbach.org",
-  "password": "teadsasdasdst",
-  "new_email": "tesasdycxtasdasd2asd@butterbach.org",
-  "new_password": "the-password",
-  "new_password_repeated": "the-password",
+  "email": "pascal@butterbach.org",
+  "password": "the-password",
+  "new_email": "pascal@butterbach.org",
+  "new_password": "1234",
+  "new_password_repeated": "1234",
   "new_username" : "Opfer"
 }
 
