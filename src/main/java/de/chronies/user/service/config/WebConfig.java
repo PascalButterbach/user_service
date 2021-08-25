@@ -34,6 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
                         HttpMethod.DELETE.name())
                 .maxAge(MAX_AGE)
                 .allowedOrigins("*")
+                .exposedHeaders("*")
                 .allowCredentials(false);
     }
 
