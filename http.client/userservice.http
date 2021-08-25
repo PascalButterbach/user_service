@@ -18,7 +18,7 @@ Authorization: Bearer {{access_token}}
 
 ### REFRESH ACCESS WITH REFRESH TOKEN
 POST {{host}}/token/
-Authorization: Bearer {{refresh_token}}
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJPcGZlciIsImF1ZCI6WyIxIiwicGFzY2FsQGJ1dHRlcmJhY2gub3JnIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjAuNjAiLCJleHAiOjE2MzIzNDg3NTYsImlhdCI6MTYyOTkyOTU1Nn0.szYL7GX6IePqA_Wf4A4-9i5bKDmwnuBi30PVtDn3Qvc
 
 > {%
      client.global.set("access_token", response.body["access_token"]);

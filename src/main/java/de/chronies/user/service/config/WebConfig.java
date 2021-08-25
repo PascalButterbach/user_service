@@ -18,6 +18,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
+//    private static final Long MAX_AGE = 3600L;
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedHeaders("*")
+//                .allowedMethods("*")
+//                .maxAge(MAX_AGE)
+//                .allowedOrigins("*")
+//                .exposedHeaders("*")
+//                .allowCredentials(false);
+//    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(bearerTokenInterceptor())
