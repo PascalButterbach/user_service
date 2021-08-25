@@ -34,12 +34,6 @@ public class HeaderModifierAdvice implements ResponseBodyAdvice<Object> {
                                   @NonNull ServerHttpRequest request,
                                   @NonNull ServerHttpResponse response) {
 
-        if(body.getClass() == ApiResponseDto.class)
-        {
-            ApiResponseDto test = (ApiResponseDto) body;
-            response.setStatusCode(test.getStatus());
-        }
-
         response.getHeaders().set(HttpHeaders.DATE, DateTimeFormatter.ofPattern("EEE dd MMM yyyy HH:mm:ss z", Locale.US)
                 .withLocale(Locale.GERMANY)
                 .withZone(ZoneId.of("Europe/Berlin"))
